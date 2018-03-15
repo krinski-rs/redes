@@ -1,0 +1,50 @@
+post_modelo_switch:
+    path: /
+    controller: 'App\Controller\Redes\ModeloSwitchController::postModeloSwitch'
+    methods: [POST]
+    defaults:
+        _format: json
+        
+get_modelo_switch:
+    path: /{id}
+    controller: 'App\Controller\Redes\ModeloSwitchController::getModeloSwitch'
+    methods: [GET]
+    defaults:
+        _format: json
+    requirements:
+        id: '\d+'
+#        
+#list_modelo_switch:
+#    path: /
+#    controller: 'App\Controller\Redes\ModeloSwitchController::getModeloSwitchs'
+#    methods: [GET]
+#    defaults:
+#        _format: json
+#        
+#delete_modelo_switch:
+#    path: /{id}
+#    controller: 'App\Controller\Redes\ModeloSwitchController::deleteModeloSwitch'
+#    methods: [DELETE]
+#    defaults:
+#        _format: json
+#    requirements:
+#        id: '\d+'
+#        
+#put_modelo_switch:
+#    path: /{id}
+#    controller: 'App\Controller\Redes\ModeloSwitchController::putModeloSwitch'
+#    methods: [PUT]
+#    defaults:
+#        _format: json
+#    requirements:
+#        id: '\d+'
+#        
+#patch_modelo_switch:
+#    path: /{id}
+#    controller: 'App\Controller\Redes\ModeloSwitchController::patchModeloSwitch'
+#    methods: [PATCH]
+#    defaults:
+#        _format: json
+#    requirements:
+#        id: '\d+'
+#        

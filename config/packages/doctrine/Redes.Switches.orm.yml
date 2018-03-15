@@ -1,0 +1,57 @@
+App\Entity\Redes\Switches:
+    type: entity
+    table: redes.switch
+    indexes:
+        IDX_3FA9BD96B2E61A13:
+            columns:
+                - modelo_switch_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: SEQUENCE
+    fields:
+        nome:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+        ip:
+            type: string
+            nullable: false
+            length: null
+            options:
+                fixed: false
+        vlan:
+            type: integer
+            nullable: true
+            options:
+                unsigned: false
+        ativo:
+            type: boolean
+            nullable: false
+            options:
+                default: true
+        dataCadastro:
+            type: datetime
+            nullable: false
+            options:
+                default: now()
+            column: data_cadastro
+    manyToOne:
+        modeloSwitch:
+            targetEntity: App\Entity\Redes\ModeloSwitch
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                modelo_switch_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }
