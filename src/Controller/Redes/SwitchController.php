@@ -20,6 +20,7 @@ use Pagerfanta\Pagerfanta;
 use League\Fractal\Pagination\PagerfantaPaginatorAdapter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Routing\RouterInterface;
+use App\Service\Redes\Switches\Listing;
 
 class SwitchController extends Controller
 {
@@ -112,22 +113,23 @@ class SwitchController extends Controller
                 $objFractalManager->parseIncludes($arrayIncludes);
             }
             
-            $doctrineAdapter = new DoctrineCollectionAdapter(new ArrayCollection($arraySwitches));
-            $paginator = new Pagerfanta($doctrineAdapter);
-            $filteredResults = $paginator->getCurrentPageResults();
-            $objRouterInterface = $this->get('router');
+//             $objDoctrineCollectionAdapter = new DoctrineCollectionAdapter(new ArrayCollection($arraySwitches));
+//             $objPagerfanta = new Pagerfanta($objDoctrineCollectionAdapter);
+//             $objPagerfanta->setMaxPerPage(Listing::DEFAULT_LIMIT);
             
+//             $filteredResults = $objPagerfanta->getCurrentPageResults();
+//             $objRouterInterface = $this->get('router');
             
-            $paginatorAdapter = new PagerfantaPaginatorAdapter($paginator, function(int $page) use ($objRequest, $objRouterInterface) {
-                $route = $objRequest->attributes->get('_route');
-                $inputParams = $objRequest->attributes->get('_route_params');
-                $newParams = array_merge($inputParams, $objRequest->query->all());
-                $newParams['page'] = $page;
-                return $objRouterInterface->generate($route, $newParams, 0);
-            });
+//             $objPagerfantaAdapter = new PagerfantaPaginatorAdapter($objPagerfanta, function(int $page) use ($objRequest, $objRouterInterface) {
+//                 $route = $objRequest->attributes->get('_route');
+//                 $inputParams = $objRequest->attributes->get('_route_params');
+//                 $newParams = array_merge($inputParams, $objRequest->query->all());
+//                 $newParams['page'] = $page;
+//                 return $objRouterInterface->generate($route, $newParams, 0);
+//             });
             
             $objCollection = new FractalCollection($arraySwitches, new SwitchesTransformer(), 'switch');
-            $objCollection->setPaginator($paginatorAdapter);
+//             $objCollection->setPaginator($objPagerfantaAdapter);
             
             return new JsonResponse($objFractalManager->createData($objCollection)->toArray(), Response::HTTP_OK);
         } catch (\RuntimeException $e) {
