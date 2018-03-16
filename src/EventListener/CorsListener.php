@@ -39,11 +39,15 @@ class CorsListener// implements EventSubscriberInterface
         
         if ($objRequest->headers->get('content-type') == 'application/json') {
             $data = json_decode($objGetResponseEvent->getRequest()->getContent(), true);
-            if(count($data)){
+            $total = count($data);
+            if($total){
                 reset($data);
-                while($dado = current($data)){
+                $ini = 0;
+                while($ini < $total){
+                    $dado = current($data);
                     $objRequest->attributes->set(key($data), $dado);
                     next($data);
+                    $ini++;
                 }
             }
         }

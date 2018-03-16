@@ -11,8 +11,9 @@ use League\Fractal\Manager as FractalManager;
 use League\Fractal\Serializer\JsonApiSerializer;
 use App\Service\Redes\ModeloSwitch as ServiceRedesModeloSwitch;
 use App\Entity\Redes\ModeloSwitch as EntityRedesModeloSwitch;
-use League\Fractal\Resource\Item;
 use App\Transformer\Redes\ModeloSwitchTransformer;
+use League\Fractal\Resource\Item;
+use League\Fractal\Resource\Collection as FractalCollection;
 
 class ModeloSwitchController extends Controller
 {
@@ -69,23 +70,76 @@ class ModeloSwitchController extends Controller
     }
     
     public function getModeloSwitchs(Request $objRequest)
-    {        
-        return new JsonResponse(['type'=>['getModeloSwitchs']], Response::HTTP_OK);
+    {
+        try {
+            $objRedesModeloSwitch = $this->get('redes.modelo_switch');
+            if(!$objRedesModeloSwitch instanceof ServiceRedesModeloSwitch){
+                return new JsonResponse(['message'=> 'Class "App\Service\Redes\ModeloSwitch not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            
+            $objModeloSwitch = $objRedesModeloSwitch->list($objRequest);
+            
+            $objFractalManager = new FractalManager();
+            $objFractalManager->setSerializer(new JsonApiSerializer('http://redes.local/api'));
+            $objCollection = new FractalCollection($objModeloSwitch, new ModeloSwitchTransformer(), 'modeloswitch');
+            
+            return new JsonResponse($objFractalManager->createData($objCollection)->toArray(), Response::HTTP_OK);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
+        } catch (\Exception $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
     
     public function deleteModeloSwitch(int $id)
     {
-        return new JsonResponse(['id'=>['deleteModeloSwitch']], Response::HTTP_OK);
+        return new JsonResponse([], Response::HTTP_NOT_IMPLEMENTED);
     }
     
-    public function putModeloSwitch(int $id)
+    public function putModeloSwitch(int $id, Request $objRequest)
     {
-        return new JsonResponse(['id'=>['putModeloSwitch']], Response::HTTP_OK);
+        try {
+            $objRedesModeloSwitch = $this->get('redes.modelo_switch');
+            if(!$objRedesModeloSwitch instanceof ServiceRedesModeloSwitch){
+                return new JsonResponse(['message'=> 'Class "App\Service\Redes\ModeloSwitch not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            
+            $objModeloSwitch = $objRedesModeloSwitch->put($id, $objRequest);
+            
+            $objFractalManager = new FractalManager();
+            $objFractalManager->setSerializer(new JsonApiSerializer('http://redes.local/api'));
+            $objItem = new Item($objModeloSwitch, new ModeloSwitchTransformer(), 'modeloswitch');
+            
+            $objFractalManager->createData($objItem)->toJson();
+            return new JsonResponse($objFractalManager->createData($objItem)->toArray(), Response::HTTP_OK);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
+        } catch (\Exception $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
     
-    public function patchModeloSwitch(int $id)
+    public function patchModeloSwitch(int $id, Request $objRequest)
     {
-        return new JsonResponse(['id'=>['patchModeloSwitch']], Response::HTTP_OK);
+        try {
+            $objRedesModeloSwitch = $this->get('redes.modelo_switch');
+            if(!$objRedesModeloSwitch instanceof ServiceRedesModeloSwitch){
+                return new JsonResponse(['message'=> 'Class "App\Service\Redes\ModeloSwitch not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            
+            $objModeloSwitch = $objRedesModeloSwitch->patch($id, $objRequest);
+            
+            $objFractalManager = new FractalManager();
+            $objFractalManager->setSerializer(new JsonApiSerializer('http://redes.local/api'));
+            $objItem = new Item($objModeloSwitch, new ModeloSwitchTransformer(), 'modeloswitch');
+            
+            $objFractalManager->createData($objItem)->toJson();
+            return new JsonResponse($objFractalManager->createData($objItem)->toArray(), Response::HTTP_OK);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
+        } catch (\Exception $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
 
