@@ -6,6 +6,7 @@
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^1.8",
         "league/fractal": "^0.17.0",
+        "pagerfanta/pagerfanta": "^1.0",
         "symfony/console": "^4.0",
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^4.0",

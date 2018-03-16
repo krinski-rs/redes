@@ -5,17 +5,42 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Request;
 use App\Service\Redes\Switches\Create;
 use App\Entity\Redes\Switches as EntitySwitches;
-use App\Util\Switches\SwitchStatus;
+// use App\Util\Switches\SwitchStatus;
 use App\Entity\Redes\Porta;
 use \App\Service\Redes\Porta\Create as CreatePorta;
+use App\Service\Redes\Switches\Listing;
 
 class Switches
-{
+{    
     private $objEntityManager   = NULL;
     
     public function __construct(Registry $objRegistry)
     {
-        $this->objEntityManager = $objRegistry->getManager('trouble');
+        $this->objEntityManager = $objRegistry->getManager('redes');
+    }
+    
+    public function get(int $id)
+    {
+        try {
+            $objListing = new Listing($this->objEntityManager);
+            return $objListing->get($id);
+        } catch (\RuntimeException $e){
+            throw $e;
+        } catch (\Exception $e){
+            throw $e;
+        }
+    }
+    
+    public function list(Request $objRequest)
+    {
+        try {
+            $objListing = new Listing($this->objEntityManager);
+            return $objListing->list($objRequest);
+        } catch (\RuntimeException $e){
+            throw $e;
+        } catch (\Exception $e){
+            throw $e;
+        }
     }
     
     public function create(Request $objRequest):EntitySwitches
@@ -38,8 +63,8 @@ class Switches
             if(!($objSwitches instanceof EntitySwitches)){
                 throw new \RuntimeException("Switch id '$id' não foi localizado.");
             }
-            $objSwitchStatus = new SwitchStatus($objSwitches);
-            return $objSwitchStatus->getVmVlan();
+//             $objSwitchStatus = new SwitchStatus($objSwitches);
+//             return $objSwitchStatus->getVmVlan();
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){
@@ -103,7 +128,7 @@ class Switches
             if(!($objSwitches instanceof EntitySwitches)){
                 throw new \RuntimeException("Switch id '$id' não foi localizado.");
             }
-            $objSwitchStatus = new SwitchStatus($objSwitches);
+//             $objSwitchStatus = new SwitchStatus($objSwitches);
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){

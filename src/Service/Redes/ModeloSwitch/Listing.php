@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 class Listing
 {
     private $objEntityManager   = NULL;
-    private $objModeloSwitch    = NULL;
     
     const DEFAULT_LIMIT = 100;
     

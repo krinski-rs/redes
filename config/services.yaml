@@ -39,3 +39,11 @@ services:
     redes.modelo_switch:
           alias: App\Service\Redes\ModeloSwitch
           public: true
+          
+    App\Service\Redes\Switches:
+          public: false
+          arguments: ["@doctrine", "@validator"]
+          
+    redes.switch:
+          alias: App\Service\Redes\Switches
+          public: true

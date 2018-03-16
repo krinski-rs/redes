@@ -25,7 +25,7 @@ class Switches
     /**
      * @var int|null
      */
-    private $vlan;
+    private $vlanBase;
 
     /**
      * @var bool
@@ -102,27 +102,27 @@ class Switches
     }
 
     /**
-     * Set vlan.
+     * Set vlanBase.
      *
-     * @param int|null $vlan
+     * @param int|null $vlanBase
      *
      * @return Switches
      */
-    public function setVlan($vlan = null)
+    public function setVlanBase($vlanBase = null)
     {
-        $this->vlan = $vlan;
+        $this->vlanBase = $vlanBase;
 
         return $this;
     }
 
     /**
-     * Get vlan.
+     * Get vlanBase.
      *
      * @return int|null
      */
-    public function getVlan()
+    public function getVlanBase()
     {
-        return $this->vlan;
+        return $this->vlanBase;
     }
 
     /**

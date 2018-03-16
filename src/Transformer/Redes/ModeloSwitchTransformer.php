@@ -8,9 +8,6 @@ class ModeloSwitchTransformer extends TransformerAbstract
 {
     public function transform(EntityRedesModeloSwitch $objModeloSwitch)
     {
-        $objModeloSwitch->getAtivo();
-        $objModeloSwitch->getId();
-        $objModeloSwitch->getNome();
         return [
             'id'    => $objModeloSwitch->getId(),
             'ativo' => $objModeloSwitch->getAtivo(),

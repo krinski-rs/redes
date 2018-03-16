@@ -48,7 +48,6 @@ class Create
     public static function createPort(EntitySwitches $objSwitches)
     {
         try {
-            echo "\n\t\t".get_class($objSwitches);
             switch (get_class($objSwitches)){
                 case 'App\Entity\Redes\SwitchesDatacom3224F2':
                     self::addPorta('FE', 1, 24, $objSwitches);

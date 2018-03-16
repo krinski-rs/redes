@@ -6,14 +6,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-
 use League\Fractal\Manager as FractalManager;
 use League\Fractal\Serializer\JsonApiSerializer;
+use League\Fractal\Resource\Item;
+use League\Fractal\Resource\Collection as FractalCollection;
+
 use App\Service\Redes\ModeloSwitch as ServiceRedesModeloSwitch;
 use App\Entity\Redes\ModeloSwitch as EntityRedesModeloSwitch;
 use App\Transformer\Redes\ModeloSwitchTransformer;
-use League\Fractal\Resource\Item;
-use League\Fractal\Resource\Collection as FractalCollection;
 
 class ModeloSwitchController extends Controller
 {
@@ -77,11 +77,11 @@ class ModeloSwitchController extends Controller
                 return new JsonResponse(['message'=> 'Class "App\Service\Redes\ModeloSwitch not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
             
-            $objModeloSwitch = $objRedesModeloSwitch->list($objRequest);
+            $arrayModeloSwitch = $objRedesModeloSwitch->list($objRequest);
             
             $objFractalManager = new FractalManager();
             $objFractalManager->setSerializer(new JsonApiSerializer('http://redes.local/api'));
-            $objCollection = new FractalCollection($objModeloSwitch, new ModeloSwitchTransformer(), 'modeloswitch');
+            $objCollection = new FractalCollection($arrayModeloSwitch, new ModeloSwitchTransformer(), 'modeloswitch');
             
             return new JsonResponse($objFractalManager->createData($objCollection)->toArray(), Response::HTTP_OK);
         } catch (\RuntimeException $e) {

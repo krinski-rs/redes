@@ -27,11 +27,12 @@ App\Entity\Redes\Switches:
             length: null
             options:
                 fixed: false
-        vlan:
+        vlanBase:
             type: integer
             nullable: true
             options:
                 unsigned: false
+            column: vlan_base
         ativo:
             type: boolean
             nullable: false
