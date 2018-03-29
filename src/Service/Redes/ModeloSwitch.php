@@ -56,9 +56,9 @@ class ModeloSwitch
     public function put(int $id, Request $objRequest)
     {
         try {
-            $objRedesSwitchUpdate = new Update($this->objEntityManager);
-            $objRedesSwitchUpdate->put($id, $objRequest);
-            return $objRedesSwitchUpdate->save();
+            $objRedesModeloSwitchUpdate = new Update($this->objEntityManager);
+            $objRedesModeloSwitchUpdate->put($id, $objRequest);
+            return $objRedesModeloSwitchUpdate->save();
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){
@@ -69,9 +69,9 @@ class ModeloSwitch
     public function patch(int $id, Request $objRequest)
     {
         try {
-            $objRedesSwitchUpdate = new Update($this->objEntityManager);
-            $objRedesSwitchUpdate->patch($id, $objRequest);
-            return $objRedesSwitchUpdate->save();
+            $objRedesModeloSwitchUpdate = new Update($this->objEntityManager);
+            $objRedesModeloSwitchUpdate->patch($id, $objRequest);
+            return $objRedesModeloSwitchUpdate->save();
         } catch (\RuntimeException $e){
             throw $e;
         } catch (\Exception $e){

@@ -30,7 +30,7 @@ class Vlan
     /**
      * @var \App\Entity\Redes\Switches
      */
-    private $switch;
+    private $switches;
 
 
     /**
@@ -116,26 +116,26 @@ class Vlan
     }
 
     /**
-     * Set switch.
+     * Set switches.
      *
-     * @param \App\Entity\Redes\Switches|null $switch
+     * @param \App\Entity\Redes\Switches|null $switches
      *
      * @return Vlan
      */
-    public function setSwitch(\App\Entity\Redes\Switches $switch = null)
+    public function setSwitches(\App\Entity\Redes\Switches $switches = null)
     {
-        $this->switch = $switch;
+        $this->switches = $switches;
 
         return $this;
     }
 
     /**
-     * Get switch.
+     * Get switches.
      *
      * @return \App\Entity\Redes\Switches|null
      */
-    public function getSwitch()
+    public function getSwitches()
     {
-        return $this->switch;
+        return $this->switches;
     }
 }

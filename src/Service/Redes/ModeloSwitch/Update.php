@@ -87,8 +87,6 @@ class Update
             ]
         );
         
-        $objRecursiveValidator = Validation::createValidatorBuilder()->getValidator();
-        
         $arrayData = [];
         $arrayCollection = [ 'fields' => [] ];
         if($objRequest->attributes->has('ativo')){
@@ -112,8 +110,8 @@ class Update
             );
         }
         
+        $objRecursiveValidator = Validation::createValidatorBuilder()->getValidator();
         $objCollection = new Assert\Collection($arrayCollection);
-        
         $objConstraintViolationList = $objRecursiveValidator->validate($arrayData, $objCollection);
         
         if($objConstraintViolationList->count()){

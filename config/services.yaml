@@ -34,7 +34,7 @@ services:
           
     App\Service\Redes\ModeloSwitch:
           public: false
-          arguments: ["@doctrine", "@validator"]
+          arguments: ["@doctrine"]
           
     redes.modelo_switch:
           alias: App\Service\Redes\ModeloSwitch
@@ -42,7 +42,7 @@ services:
           
     App\Service\Redes\Switches:
           public: false
-          arguments: ["@doctrine", "@validator"]
+          arguments: ["@doctrine", "@logger"]
           
     redes.switch:
           alias: App\Service\Redes\Switches

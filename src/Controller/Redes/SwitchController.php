@@ -15,12 +15,6 @@ use App\Service\Redes\Switches as ServiceRedesSwitches;
 use App\Entity\Redes\Switches as EntityRedesSwitches;
 use App\Transformer\Redes\SwitchesTransformer;
 use App\Util\Traits\ParseInclude;
-use Pagerfanta\Adapter\DoctrineCollectionAdapter;
-use Pagerfanta\Pagerfanta;
-use League\Fractal\Pagination\PagerfantaPaginatorAdapter;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Routing\RouterInterface;
-use App\Service\Redes\Switches\Listing;
 
 class SwitchController extends Controller
 {
@@ -35,25 +29,13 @@ class SwitchController extends Controller
             }
             
             $objSwitches = $objServiceRedesSwitches->create($objRequest);
+            $objFractalManager = new FractalManager();
+            $objFractalManager->setSerializer(new JsonApiSerializer('http://redes.local/api'));
             
-            return new JsonResponse(['id'=>$objSwitches->getId()], Response::HTTP_OK);
-        } catch (\RuntimeException $e) {
-            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
-        } catch (\Exception $e) {
-            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
-    
-    public function postSwitchPorta(int $id, Request $objRequest)
-    {
-        try {
-            $objServiceRedesSwitches = $this->get('redes.switch');
-            if(!$objServiceRedesSwitches instanceof ServiceRedesSwitches){
-                return new JsonResponse(['message'=> 'Class "App\Service\Redes\Switches not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
-            }
+            $objItem = new Item($objSwitches, new SwitchesTransformer(), 'switch');
             
-            $objPorta = $objServiceRedesSwitches->postSwitchPorta($id, $objRequest);
-            return new JsonResponse(['id'=>$objPorta->getId()], Response::HTTP_OK);
+            $objFractalManager->createData($objItem)->toJson();
+            return new JsonResponse($objFractalManager->createData($objItem)->toArray(), Response::HTTP_OK);
         } catch (\RuntimeException $e) {
             return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
         } catch (\Exception $e) {
@@ -112,25 +94,7 @@ class SwitchController extends Controller
             if(count($arrayIncludes)){
                 $objFractalManager->parseIncludes($arrayIncludes);
             }
-            
-//             $objDoctrineCollectionAdapter = new DoctrineCollectionAdapter(new ArrayCollection($arraySwitches));
-//             $objPagerfanta = new Pagerfanta($objDoctrineCollectionAdapter);
-//             $objPagerfanta->setMaxPerPage(Listing::DEFAULT_LIMIT);
-            
-//             $filteredResults = $objPagerfanta->getCurrentPageResults();
-//             $objRouterInterface = $this->get('router');
-            
-//             $objPagerfantaAdapter = new PagerfantaPaginatorAdapter($objPagerfanta, function(int $page) use ($objRequest, $objRouterInterface) {
-//                 $route = $objRequest->attributes->get('_route');
-//                 $inputParams = $objRequest->attributes->get('_route_params');
-//                 $newParams = array_merge($inputParams, $objRequest->query->all());
-//                 $newParams['page'] = $page;
-//                 return $objRouterInterface->generate($route, $newParams, 0);
-//             });
-            
             $objCollection = new FractalCollection($arraySwitches, new SwitchesTransformer(), 'switch');
-//             $objCollection->setPaginator($objPagerfantaAdapter);
-            
             return new JsonResponse($objFractalManager->createData($objCollection)->toArray(), Response::HTTP_OK);
         } catch (\RuntimeException $e) {
             return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
@@ -144,14 +108,49 @@ class SwitchController extends Controller
         return new JsonResponse([], Response::HTTP_NOT_IMPLEMENTED);
     }
     
-    public function putSwitch(int $id)
+    public function putSwitch(int $id, Request $objRequest)
     {
-        return new JsonResponse(['id'=>['putSwitch']], Response::HTTP_OK);
+        try {
+            $objServiceRedesSwitches = $this->get('redes.switch');
+            if(!$objServiceRedesSwitches instanceof ServiceRedesSwitches){
+                return new JsonResponse(['message'=> 'Class "App\Service\Redes\Switches not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            
+            $objSwitches = $objServiceRedesSwitches->put($id, $objRequest);
+            
+            $objFractalManager = new FractalManager();
+            $objFractalManager->setSerializer(new JsonApiSerializer('http://redes.local/api'));
+            $objItem = new Item($objSwitches, new SwitchesTransformer(), 'switch');
+            
+            $objFractalManager->createData($objItem)->toJson();
+            return new JsonResponse($objFractalManager->createData($objItem)->toArray(), Response::HTTP_OK);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
+        } catch (\Exception $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
     
-    public function patchSwitch(int $id)
+    public function patchSwitch(int $id, Request $objRequest)
     {
-        return new JsonResponse(['id'=>['patchSwitch']], Response::HTTP_OK);
+        try {
+            $objServiceRedesSwitches = $this->get('redes.switch');
+            if(!$objServiceRedesSwitches instanceof ServiceRedesSwitches){
+                return new JsonResponse(['message'=> 'Class "App\Service\Redes\Switches not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            $objSwitches = $objServiceRedesSwitches->patch($id, $objRequest);
+            
+            $objFractalManager = new FractalManager();
+            $objFractalManager->setSerializer(new JsonApiSerializer('http://redes.local/api'));
+            $objItem = new Item($objSwitches, new SwitchesTransformer(), 'switch');
+            
+            $objFractalManager->createData($objItem)->toJson();
+            return new JsonResponse($objFractalManager->createData($objItem)->toArray(), Response::HTTP_OK);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
+        } catch (\Exception $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
     
     public function status(int $id)
@@ -171,16 +170,21 @@ class SwitchController extends Controller
         }
     }
     
-    public function putSwitchPorta(int $id)
+    public function backup(int $id)
     {
-        $objServiceRedesSwitches = $this->get('redes.switch');
-        if(!$objServiceRedesSwitches instanceof ServiceRedesSwitches){
-            return new JsonResponse(['message'=> 'Class "App\Service\Redes\Switches not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        try {
+            $objServiceRedesSwitches = $this->get('redes.switch');
+            if(!$objServiceRedesSwitches instanceof ServiceRedesSwitches){
+                return new JsonResponse(['message'=> 'Class "App\Service\Redes\Switches not found."'], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+            
+            $arrayStatus = $objServiceRedesSwitches->backup($id);
+            return new JsonResponse($arrayStatus, Response::HTTP_OK);
+        } catch (\RuntimeException $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_PRECONDITION_FAILED);
+        } catch (\Exception $e) {
+            return new JsonResponse(['mensagem'=>$e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        
-        $arrayStatus = $objServiceRedesSwitches->updateSwitchPorta($id);
-        
-        return new JsonResponse($arrayStatus, Response::HTTP_OK);
     }
 }
 

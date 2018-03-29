@@ -33,7 +33,7 @@ App\Entity\Redes\Vlan:
             options:
                 unsigned: false
     manyToOne:
-        switch:
+        switches:
             targetEntity: App\Entity\Redes\Switches
             cascade: {  }
             fetch: LAZY

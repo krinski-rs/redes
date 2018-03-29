@@ -44,6 +44,23 @@ App\Entity\Redes\Switches:
             options:
                 default: now()
             column: data_cadastro
+    oneToMany:
+        porta:
+            targetEntity: App\Entity\Redes\Porta
+            cascade:
+                - persist
+                - merge
+                - remove
+            fetch: LAZY
+            mappedBy: switches
+        vlan:
+            targetEntity: App\Entity\Redes\Vlan
+            cascade:
+                - persist
+                - merge
+                - remove
+            fetch: LAZY
+            mappedBy: switches
     manyToOne:
         modeloSwitch:
             targetEntity: App\Entity\Redes\ModeloSwitch

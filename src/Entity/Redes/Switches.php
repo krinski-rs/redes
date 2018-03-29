@@ -196,4 +196,94 @@ class Switches
     {
         return $this->modeloSwitch;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $porta;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $vlan;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->porta = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->vlan = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add portum.
+     *
+     * @param \App\Entity\Redes\Porta $portum
+     *
+     * @return Switches
+     */
+    public function addPortum(\App\Entity\Redes\Porta $portum)
+    {
+        $this->porta[] = $portum;
+
+        return $this;
+    }
+
+    /**
+     * Remove portum.
+     *
+     * @param \App\Entity\Redes\Porta $portum
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removePortum(\App\Entity\Redes\Porta $portum)
+    {
+        return $this->porta->removeElement($portum);
+    }
+
+    /**
+     * Get porta.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPorta()
+    {
+        return $this->porta;
+    }
+
+    /**
+     * Add vlan.
+     *
+     * @param \App\Entity\Redes\Vlan $vlan
+     *
+     * @return Switches
+     */
+    public function addVlan(\App\Entity\Redes\Vlan $vlan)
+    {
+        $this->vlan[] = $vlan;
+
+        return $this;
+    }
+
+    /**
+     * Remove vlan.
+     *
+     * @param \App\Entity\Redes\Vlan $vlan
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeVlan(\App\Entity\Redes\Vlan $vlan)
+    {
+        return $this->vlan->removeElement($vlan);
+    }
+
+    /**
+     * Get vlan.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVlan()
+    {
+        return $this->vlan;
+    }
 }

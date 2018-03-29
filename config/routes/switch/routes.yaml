@@ -1,10 +1,10 @@
-#post_switch:
-#    path: /
-#    controller: 'App\Controller\Redes\SwitchController::postSwitch'
-#    methods: [POST]
-#    defaults:
-#        _format: json
-#        
+post_switch:
+    path: /
+    controller: 'App\Controller\Redes\SwitchController::postSwitch'
+    methods: [POST]
+    defaults:
+        _format: json
+        
 get_switch:
     path: /{id}
     controller: 'App\Controller\Redes\SwitchController::getSwitch'
@@ -21,41 +21,50 @@ list_switch:
     defaults:
         _format: json
         
-#delete_switch:
-#    path: /{id}
-#    controller: 'App\Controller\Redes\SwitchController::deleteSwitch'
-#    methods: [DELETE]
-#    defaults:
-#        _format: json
-#    requirements:
-#        id: '\d+'
-#        
-#put_switch:
-#    path: /{id}
-#    controller: 'App\Controller\Redes\SwitchController::putSwitch'
-#    methods: [PUT]
-#    defaults:
-#        _format: json
-#    requirements:
-#        id: '\d+'
-#        
-#patch_switch:
-#    path: /{id}
-#    controller: 'App\Controller\Redes\SwitchController::patchSwitch'
-#    methods: [PATCH]
-#    defaults:
-#        _format: json
-#    requirements:
-#        id: '\d+'
-#        
-#status_switch:
-#    path: /{id}/status
-#    controller: 'App\Controller\Redes\SwitchController::status'
-#    methods: [GET, POST]
-#    defaults:
-#        _format: json
-#    requirements:
-#        id: '\d+'
+delete_switch:
+    path: /{id}
+    controller: 'App\Controller\Redes\SwitchController::deleteSwitch'
+    methods: [DELETE]
+    defaults:
+        _format: json
+    requirements:
+        id: '\d+'
+        
+put_switch:
+    path: /{id}
+    controller: 'App\Controller\Redes\SwitchController::putSwitch'
+    methods: [PUT]
+    defaults:
+        _format: json
+    requirements:
+        id: '\d+'
+        
+patch_switch:
+    path: /{id}
+    controller: 'App\Controller\Redes\SwitchController::patchSwitch'
+    methods: [PATCH]
+    defaults:
+        _format: json
+    requirements:
+        id: '\d+'
+        
+status_switch:
+    path: /{id}/status
+    controller: 'App\Controller\Redes\SwitchController::status'
+    methods: [GET, POST]
+    defaults:
+        _format: json
+    requirements:
+        id: '\d+'
+        
+backup_switch:
+    path: /{id}/backup
+    controller: 'App\Controller\Redes\SwitchController::backup'
+    methods: [GET, POST]
+    defaults:
+        _format: json
+    requirements:
+        id: '\d+'
 #        
 #put_switch_porta:
 #    path: /{id}/porta
